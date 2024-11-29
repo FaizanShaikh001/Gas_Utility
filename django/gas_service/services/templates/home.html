@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1>Welcome to the Gas Utility Service Portal</h1>
+    <p class="lead">Easily submit and track your service requests online.</p>
+    <a href="{% url 'submit_request' %}" class="btn btn-primary btn-lg">Submit a Service Request</a>
+</div>
+{% endblock %}

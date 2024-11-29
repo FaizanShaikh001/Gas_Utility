@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer Name</th>
+                <th>Request Type</th>
+                <th>Description</th>
+                <th>Attachment</th>
+                <th>Status</th>
+                <th>Last Updated By</th>
+                <th>Resolved At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in service_requests %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td>{{ request.customer_name }}</td>
+                <td>{{ request.request_type }}</td>
+                <td>{{ request.description }}</td>
+                <td>
+                    {% if request.file_attachment %}
+                    <a href="{{ request.file_attachment.url }}" target="_blank">View</a>
+                    {% else %}
+                    No Attachment
+                    {% endif %}
+                </td>
+                <td>
+                    <select name="status_{{ request.id }}" class="form-select">
+                        <option value="Pending" {% if request.status == "Pending" %}selected{% endif %}>Pending</option>
+                        <option value="In Progress" {% if request.status == "In Progress" %}selected{% endif %}>In Progress</option>
+                        <option value="Resolved" {% if request.status == "Resolved" %}selected{% endif %}>Resolved</option>
+                    </select>
+                </td>
+                <td>
+                    {% if request.updated_by %}
+                        {{ request.updated_by.username }}
+                    {% else %}
+                        Not Updated
+                    {% endif %}
+                </td>
+                <td>
+                    {% if request.resolved_at %}
+                        {{ request.resolved_at|date:"Y-m-d H:i" }}
+                    {% else %}
+                        Not Resolved
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+{% endblock %}

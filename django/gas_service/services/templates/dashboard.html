@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2>Service Requests Dashboard</h2>
+<table class="table table-bordered table-striped mt-4">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Request Type</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Resolved At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in requests %}
+        <tr>
+            <td>{{ request.id }}</td>
+            <td>{{ request.customer_name }}</td>
+            <td>{{ request.request_type }}</td>
+            <td>{{ request.status }}</td>
+            <td>{{ request.created_at }}</td>
+            <td>{{ request.resolved_at|default:"-" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
